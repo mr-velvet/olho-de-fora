@@ -1,0 +1,45 @@
+{
+  "_comentario": "OS SERVIÇOS QUE O OLHO DE FORA VIGIA. Esta é a única lista — mudar quem é crítico é mexer aqui, não no workflow. O olho de fora roda na infraestrutura do GitHub, fora da nossa máquina, e é a única peça que continua enxergando quando a VM inteira desaparece (pane, rede, zona). Tudo o que construímos em 26-27/09 (vigia, autocura, saída de emergência, livro de disponibilidade) mora DENTRO da VM e some com ela.",
+  "_comentario_esperado": "esperado é o código HTTP que significa 'de pé'. Para o Hub e a conversa é o /api/health (200 com corpo). Para app de cliente é a raiz: se o Caddy devolve 502, o app está fora, e é isso que importa para quem abre a página.",
+  "_comentario_contem": "contem (opcional) é um trecho que a resposta precisa ter. Serve contra o pior caso: um 200 vazio de página de erro, ou um Caddy que responde mas o app por trás não. Sem isso, 'responde 200' não é o mesmo que 'está funcionando'.",
+  "falhas_para_alertar": 2,
+  "_comentario_falhas": "Duas falhas seguidas = 10 min com o cron de 5 min. Uma só não alerta, de propósito: o GitHub Actions roda em rede compartilhada e um timeout isolado é ruído, não incidente. O incidente de 26/09 durou 2h19 — dez minutos de atraso para ter certeza é troca honesta contra acordar o founder por engano.",
+  "servicos": [
+    {
+      "nome": "agnts",
+      "rotulo": "a plataforma (Hub)",
+      "url": "https://agnts.did.lu/api/health",
+      "esperado": 200,
+      "contem": "\"ok\":true",
+      "critico": true
+    },
+    {
+      "nome": "conversa",
+      "rotulo": "a porta de conversa",
+      "url": "https://conversa.did.lu/api/health",
+      "esperado": 200,
+      "critico": true
+    },
+    {
+      "nome": "the-team",
+      "rotulo": "the team (cliente)",
+      "url": "https://tt.did.lu/",
+      "esperado": 200,
+      "critico": true
+    },
+    {
+      "nome": "chordbox",
+      "rotulo": "chordbox (cliente)",
+      "url": "https://chordbox.did.lu/",
+      "esperado": 200,
+      "critico": true
+    },
+    {
+      "nome": "saude",
+      "rotulo": "o painel de saúde",
+      "url": "https://saude.did.lu/",
+      "esperado": 200,
+      "critico": false
+    }
+  ]
+}
