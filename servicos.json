@@ -40,13 +40,6 @@
       "url": "https://saude.did.lu/",
       "esperado": 200,
       "critico": false
-    },
-    {
-      "nome": "prova-de-queda",
-      "rotulo": "PROVA (serviço de teste, ignore)",
-      "url": "https://agnts.did.lu/api/health",
-      "esperado": 200,
-      "critico": false
     }
   ]
 }
