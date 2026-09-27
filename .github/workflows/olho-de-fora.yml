@@ -78,7 +78,14 @@ jobs:
       - name: as regras do aviso se provam antes de qualquer aviso sair
         # 24 testes, sem rede e sem banco, ~0,3 s. Um olho de fora com a escada
         # de avisos quebrada é pior que nenhum: ele grita, é silenciado, e some.
-        run: node --test .
+        #
+        # Os arquivos vão NOMEADOS, não por `.` nem por glob. As duas formas
+        # mais curtas dependem da versão do Node: `node --test .` funciona no 22
+        # do runner e não no 20 da máquina de desenvolvimento, e o glob é o
+        # contrário. Um gate que passa aqui e falha lá não é gate. A primeira
+        # execução deste workflow morreu exatamente nisso — e morreu ANTES de
+        # qualquer aviso sair, que é o gate fazendo o trabalho dele.
+        run: node --test decisao.test.mjs olho.test.mjs
 
       - name: olhar de fora
         env:
